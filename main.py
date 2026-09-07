@@ -5,7 +5,7 @@ from http.server import SimpleHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 
-TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+TOKEN = os.environ.get("8604044263:AAG5Hy0BZIfwrPS2OPmmm8SEpXDGYdbY6M4")
 
 PHOTO_IDS = [
     "AgACAgQAAxkBAAMjap2-ULvbSovndg-MMrYPKNKW3KEAAmMOaxuD2elQRkCXMll3FzkBAAMCAAN5AAM9BA",
