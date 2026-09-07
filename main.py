@@ -1,5 +1,7 @@
 import asyncio
 import os
+import threading
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 
@@ -38,9 +40,21 @@ async def send_media_and_timer(update: Update, context: ContextTypes.DEFAULT_TYP
     except Exception as e:
         print(f"Error: {e}")
 
+# Render को खुश रखने के लिए छोटा वेब सर्वर
+def run_web_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
+    print(f"Web server running on port {port}")
+    server.serve_forever()
+
 def main():
     if not TOKEN:
+        print("Error: TELEGRAM_BOT_TOKEN not found!")
         return
+        
+    # वेब सर्वर को अलग थ्रेड में शुरू करें
+    threading.Thread(target=run_web_server, daemon=True).start()
+    
     app = Application.builder().token(TOKEN).build()
     app.add_handler(MessageHandler(filters.TEXT | filters.COMMAND, send_media_and_timer))
     print("🤖 Bot is running...")
@@ -48,4 +62,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
